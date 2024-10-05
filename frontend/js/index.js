@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { searchJobs, saveJob, getJobByID } from './api/jobs'
+import { searchJobs, saveJob, getJobByID, getAllJobs } from './api/jobs'
 
 /**
  * @type {HTMLFormElement}
@@ -29,6 +29,15 @@ jobForm.addEventListener('submit', async (e) => {
         `)
     }
 })
+
+// Render all jobs first
+
+ async function init (){
+    const data = await getAllJobs()
+    renderCards(data)
+}
+
+init()
 
 /**
  * 
