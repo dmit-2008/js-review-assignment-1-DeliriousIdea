@@ -38,8 +38,34 @@ const getAllJobs = async() => {
     return data
 }
 
-const saveJob = () => {
-
+/* Fix */
+const saveJob = async (jobID) => {
+    let data
+    try {
+        const req = await fetch(`${endpoint}/saved-jobs`, {
+            method: 'POST',
+            body: JSON.stringify({
+                "jobId": jobID
+            })
+        })
+        data = await req.json()
+    } catch (e) {
+        console.log(e)
+    }
+    console.log(data)
 }
 
-export { searchJobs, saveJob, getJobByID, getAllJobs } 
+const getSavedJobs = async () => {
+    let data
+    try {
+        const req = await fetch(`${endpoint}/saved-jobs`)
+        data = await req.json()
+    } catch (e) {
+        console.log(e)
+    }
+
+    console.log(data)
+    return data
+}
+
+export { searchJobs, saveJob, getJobByID, getAllJobs, getSavedJobs } 

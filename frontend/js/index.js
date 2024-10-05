@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { searchJobs, saveJob, getJobByID, getAllJobs } from './api/jobs'
+import { searchJobs, saveJob, getJobByID, getAllJobs, getSavedJobs } from './api/jobs'
 
 /**
  * @type {HTMLFormElement}
@@ -101,4 +101,48 @@ function renderJobView(job) {
             </div>
             </div>`
     )
+
+    // Add listener to button, there should only be one of these cards on the screen at a time
+
+    const saveButton = document.querySelector('.save-job').addEventListener('click', () => {
+        saveJob(job.id)
+    })
+}
+
+
+// Attach listeners to search and bookmark tabs,
+/**
+ * @type {HTMLDivElement}
+ */
+const searchTab = document.querySelector('#search-tab-button')
+searchTab.addEventListener(('click'), () => {
+    searchTab.classList.add('active')
+    bookmarkTab.classList.remove('active')
+})
+
+/**
+ * @type {HTMLDivElement}
+ */
+const bookmarkTab = document.querySelector('#bookmark-tab-button')
+bookmarkTab.addEventListener(('click'), () => {
+    searchTab.classList.remove('active')
+    bookmarkTab.classList.add('active')
+})
+
+function renderSavedJobs() {
+    jobResultRef.innerHTML = ''
+
+    data.forEach((job) => {
+        jobResultRef.insertAdjacentHTML('beforeend', `
+        <li class="job-card card my-1" style="width: 18rem;">
+        <div class="card-header">${job.company}</div>
+        <div class="card-body">
+            <h5 class="card-title">${job.title}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">${job.location}</h6>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Posted ${job.date_posted}</h6>
+            <button class="btn btn-primary view-job-button" job-data-id="${job.id}">View Job</button>
+        </div>
+        </li>
+        `)
+    })
 }
