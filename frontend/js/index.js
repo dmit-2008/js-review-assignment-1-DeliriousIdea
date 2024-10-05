@@ -111,22 +111,26 @@ function renderJobView(job) {
 
 
 // Attach listeners to search and bookmark tabs,
-/**
- * @type {HTMLDivElement}
- */
 const searchTab = document.querySelector('#search-tab-button')
+const searchDisplay = document.querySelector('#search-jobs-tab')
+const bookmarkTab = document.querySelector('#bookmark-tab-button')
+const bookmarkDisplay = document.querySelector('#my-jobs-tab')
+
 searchTab.addEventListener(('click'), () => {
     searchTab.classList.add('active')
     bookmarkTab.classList.remove('active')
+
+
+    searchDisplay.classList.remove('d-none')
+    bookmarkDisplay.classList.add('d-none')
 })
 
-/**
- * @type {HTMLDivElement}
- */
-const bookmarkTab = document.querySelector('#bookmark-tab-button')
 bookmarkTab.addEventListener(('click'), () => {
     searchTab.classList.remove('active')
     bookmarkTab.classList.add('active')
+
+    searchDisplay.classList.add('d-none')
+    bookmarkDisplay.classList.remove('d-none')
 })
 
 function renderSavedJobs() {
