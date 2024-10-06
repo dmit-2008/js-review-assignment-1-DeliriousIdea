@@ -35,6 +35,7 @@ jobForm.addEventListener('submit', async (e) => {
  async function init (){
     const data = await getAllJobs()
     renderCards(data)
+
 }
 
 init()
@@ -115,6 +116,7 @@ const searchTab = document.querySelector('#search-tab-button')
 const searchDisplay = document.querySelector('#search-jobs-tab')
 const bookmarkTab = document.querySelector('#bookmark-tab-button')
 const bookmarkDisplay = document.querySelector('#my-jobs-tab')
+const jobsDisplay = document.querySelector('#my-jobs')
 
 searchTab.addEventListener(('click'), () => {
     searchTab.classList.add('active')
@@ -125,19 +127,23 @@ searchTab.addEventListener(('click'), () => {
     bookmarkDisplay.classList.add('d-none')
 })
 
-bookmarkTab.addEventListener(('click'), () => {
+bookmarkTab.addEventListener(('click'), async () => {
     searchTab.classList.remove('active')
     bookmarkTab.classList.add('active')
 
     searchDisplay.classList.add('d-none')
     bookmarkDisplay.classList.remove('d-none')
+    // Fetch the saved jobs then render. Seems inefficient for every load, but a user can save a job then switch over and view it
+    const savedJobs = await getSavedJobs()
+    renderSavedJobs(savedJobs)
 })
 
-function renderSavedJobs() {
-    jobResultRef.innerHTML = ''
+
+function renderSavedJobs(data) {
+    jobsDisplay.innerHTML = ''
 
     data.forEach((job) => {
-        jobResultRef.insertAdjacentHTML('beforeend', `
+        jobsDisplay.insertAdjacentHTML('beforeend', `
         <li class="job-card card my-1" style="width: 18rem;">
         <div class="card-header">${job.company}</div>
         <div class="card-body">

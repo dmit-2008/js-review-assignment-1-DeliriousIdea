@@ -57,15 +57,23 @@ const saveJob = async (jobID) => {
 
 const getSavedJobs = async () => {
     let data
+    /**
+     * @type {Array}
+     */
+    let result
     try {
         const req = await fetch(`${endpoint}/saved-jobs`)
         data = await req.json()
+        data.forEach(async (job) => {
+            const response = await getJobByID(job.jobId)
+            result.push(response)
+        })
     } catch (e) {
         console.log(e)
     }
 
     console.log(data)
-    return data
+    return result
 }
 
 export { searchJobs, saveJob, getJobByID, getAllJobs, getSavedJobs } 
